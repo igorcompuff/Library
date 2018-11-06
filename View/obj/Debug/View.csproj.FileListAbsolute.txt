@@ -1,0 +1,14 @@
+C:\Users\igorribeiro\Desktop\Library\View\obj\Debug\View.csprojResolveAssemblyReference.cache
+C:\Users\igorribeiro\Desktop\Library\View\obj\Debug\View.csproj.CoreCompileInputs.cache
+C:\Users\igorribeiro\Desktop\Library\View\bin\Debug\View.exe.config
+C:\Users\igorribeiro\Desktop\Library\View\bin\Debug\View.exe
+C:\Users\igorribeiro\Desktop\Library\View\bin\Debug\View.pdb
+C:\Users\igorribeiro\Desktop\Library\View\bin\Debug\Domain.dll
+C:\Users\igorribeiro\Desktop\Library\View\bin\Debug\Persistence.dll
+C:\Users\igorribeiro\Desktop\Library\View\bin\Debug\Service.dll
+C:\Users\igorribeiro\Desktop\Library\View\bin\Debug\Domain.pdb
+C:\Users\igorribeiro\Desktop\Library\View\bin\Debug\Persistence.pdb
+C:\Users\igorribeiro\Desktop\Library\View\bin\Debug\Service.pdb
+C:\Users\igorribeiro\Desktop\Library\View\obj\Debug\View.csproj.CopyComplete
+C:\Users\igorribeiro\Desktop\Library\View\obj\Debug\View.exe
+C:\Users\igorribeiro\Desktop\Library\View\obj\Debug\View.pdb
