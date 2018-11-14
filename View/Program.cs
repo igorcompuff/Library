@@ -9,28 +9,15 @@ namespace View
 {
     public class Program : IView
     {
-        BookService _service;
-
-        public Program()
-        {
-            _service = new BookService(new BookBdRepository(), this);
-        }
-
         public static void Main(string[] args)
         {
             var p = new Program();
 
-            //p.ShowMenu();
-            BookBdRepository rep = new BookBdRepository();
-            Book book = rep.GetById(1);
-
-            Console.WriteLine($"Título: {book.Title}\nIsbn: {book.Isbn}\nEdição: {book.Edition}\nYear: {book.Year}");
-
-            foreach (var author in book.GetAuthors())
+            using (var repository = new BookBdRepository())
             {
-                Console.WriteLine(author);
+                Book book = repository.GetById(1);
+                p.ShowBook(book);
             }
-            Console.ReadKey();
         }
 
         /*
@@ -96,7 +83,7 @@ namespace View
 
             return true;
         }
-
+*/
         public void ShowBook(Book book)
         {
             Console.Clear();
@@ -121,6 +108,7 @@ namespace View
 
         }
 
+        /*
         public Book GetBookUpdate(Book oldBook)
         {
             Console.Clear();

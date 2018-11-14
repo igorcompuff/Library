@@ -49,6 +49,7 @@ namespace Persistence.BD
             if (book != null)
             {
                 FillAuthors(book);
+                FillSubjects(book);
             }
 
             return book;
@@ -103,6 +104,30 @@ namespace Persistence.BD
                     while (reader.Read())
                     {
                         book.AddAuthor(reader.GetString(0));
+                    }
+                }
+            }
+        }
+
+        private void FillSubjects(Book book)
+        {
+            using (var command = _factory.CreateCommand())
+            {
+                command.Connection = _connection;
+                command.CommandText = "Select Subjects.Subject from Subjects Inner Join Book_Subject on Subjects.Id = Book_Subject.SubjectId and Book_Subject.BookId = @Id";
+
+                var parameter = _factory.CreateParameter();
+                parameter.DbType = DbType.Int32;
+                parameter.ParameterName = "@Id";
+                parameter.Value = book.Id;
+
+                command.Parameters.Add(parameter);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        book.AddSubject(reader.GetString(0));
                     }
                 }
             }
