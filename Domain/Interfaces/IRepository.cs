@@ -4,7 +4,7 @@ using Domain.Entities;
 
 namespace Domain.Interfaces
 {
-    public interface IRepository<T> : IDisposable where T: BaseEntity
+    public interface IRepository<T> where T: BaseEntity
     {
         void Add(T entity);
         void Remove(T entity);

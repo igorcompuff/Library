@@ -4,9 +4,8 @@ namespace Domain.Entities
 {
     public class Book : BaseEntity
     {
-        private readonly List<string> _authors = new List<string>();
-        private readonly List<string> _subjects = new List<string>();
-        private readonly List<BookInstance> _instances = new List<BookInstance>();
+        private readonly List<Author> _authors = new List<Author>();
+        private readonly List<Subject> _subjects = new List<Subject>();
         public string Title { get; }
         public string Isbn { get; }
         public int Edition { get; }
@@ -20,55 +19,15 @@ namespace Domain.Entities
             Year = year;
         }
 
-        public void AddAuthor(string author)
-        {
-            _authors.Add(author);
-        }
-
-        public void RemoveAuthor(string author)
-        {
-            _authors.Remove(author);
-        }
-
-        public void AddSubject(string subject)
-        {
-            _subjects.Add(subject);
-        }
-
-        public void RemoveSubject(string subject)
-        {
-            _subjects.Remove(subject);
-        }
-
-        public void AddBookInstance(BookInstance instance)
-        {
-            _instances.Add(instance);
-        }
-
-        public void RemoveBookInstance(BookInstance instance)
-        {
-            _instances.Remove(instance);
-        }
-
-        public IReadOnlyCollection<string> GetAuthors()
-        {
-            return _authors.AsReadOnly();
-        }
-
-        public IReadOnlyCollection<string> GetSubjects()
-        {
-            return _subjects.AsReadOnly();
-        }
-
-        public IReadOnlyCollection<BookInstance> GetInstances()
-        {
-            return _instances.AsReadOnly();
-        }
-
-        public override List<string> Validate()
-        {
-            return new List<string>();
-        }
+        public void AddAuthor(Author author) => _authors.Add(author);
+        public void AddAuthors(IEnumerable<Author> authors) => _authors.AddRange(authors);
+        public void RemoveAuthor(Author author) => _authors.Remove(author);
+        public void AddSubject(Subject subject) => _subjects.Add(subject);
+        public void AddSubjects(IEnumerable<Subject> subjects) => _subjects.AddRange(subjects);
+        public void RemoveSubject(Subject subject) => _subjects.Remove(subject);
+        public IReadOnlyCollection<Author> GetAuthors() => _authors.AsReadOnly();
+        public IReadOnlyCollection<Subject> GetSubjects() => _subjects.AsReadOnly();
+        public override List<string> Validate() => new List<string>();
 
     }
 }

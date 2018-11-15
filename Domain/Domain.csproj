@@ -40,12 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Author.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Book.cs" />
-    <Compile Include="Entities\BookInstance.cs" />
-    <Compile Include="Interfaces\IBookInstanceRepository.cs" />
+    <Compile Include="Entities\Subject.cs" />
+    <Compile Include="Interfaces\IAuthorRepository.cs" />
     <Compile Include="Interfaces\IBookRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\ISubjectRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

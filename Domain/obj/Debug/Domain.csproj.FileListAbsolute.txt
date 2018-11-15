@@ -10,3 +10,9 @@ C:\Users\igorribeiro\Desktop\Library\Domain\obj\Debug\Domain.csprojResolveAssemb
 C:\Users\igorribeiro\Desktop\Library\Domain\obj\Debug\Domain.csproj.CoreCompileInputs.cache
 C:\Users\igorribeiro\Desktop\Library\Domain\obj\Debug\Domain.dll
 C:\Users\igorribeiro\Desktop\Library\Domain\obj\Debug\Domain.pdb
+C:\Users\igorribeiro\Source\Repos\Library\Domain\bin\Debug\Domain.dll
+C:\Users\igorribeiro\Source\Repos\Library\Domain\bin\Debug\Domain.pdb
+C:\Users\igorribeiro\Source\Repos\Library\Domain\obj\Debug\Domain.csprojAssemblyReference.cache
+C:\Users\igorribeiro\Source\Repos\Library\Domain\obj\Debug\Domain.csproj.CoreCompileInputs.cache
+C:\Users\igorribeiro\Source\Repos\Library\Domain\obj\Debug\Domain.dll
+C:\Users\igorribeiro\Source\Repos\Library\Domain\obj\Debug\Domain.pdb

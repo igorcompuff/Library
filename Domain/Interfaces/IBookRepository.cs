@@ -1,11 +1,7 @@
-﻿using Domain.Entities;
-using System.Collections.Generic;
-
-namespace Domain.Interfaces
+﻿namespace Domain.Interfaces
 {
-    public interface IBookRepository : IRepository<Book>
+    public interface IBookRepository
     {
-        IEnumerable<Book> GetBookByTitle(string title);
-        Book GetBookByIsbn(string isbn);
+        
     }
 }
