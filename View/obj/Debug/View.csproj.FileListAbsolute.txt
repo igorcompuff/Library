@@ -17,12 +17,10 @@ C:\Users\igorribeiro\Source\Repos\Library\View\bin\Debug\View.exe
 C:\Users\igorribeiro\Source\Repos\Library\View\bin\Debug\View.pdb
 C:\Users\igorribeiro\Source\Repos\Library\View\bin\Debug\Domain.dll
 C:\Users\igorribeiro\Source\Repos\Library\View\bin\Debug\Persistence.dll
-C:\Users\igorribeiro\Source\Repos\Library\View\bin\Debug\Service.dll
 C:\Users\igorribeiro\Source\Repos\Library\View\bin\Debug\Domain.pdb
 C:\Users\igorribeiro\Source\Repos\Library\View\bin\Debug\Persistence.pdb
-C:\Users\igorribeiro\Source\Repos\Library\View\bin\Debug\Service.pdb
-C:\Users\igorribeiro\Source\Repos\Library\View\obj\Debug\View.csprojResolveAssemblyReference.cache
 C:\Users\igorribeiro\Source\Repos\Library\View\obj\Debug\View.csproj.CoreCompileInputs.cache
 C:\Users\igorribeiro\Source\Repos\Library\View\obj\Debug\View.csproj.CopyComplete
 C:\Users\igorribeiro\Source\Repos\Library\View\obj\Debug\View.exe
 C:\Users\igorribeiro\Source\Repos\Library\View\obj\Debug\View.pdb
+C:\Users\igorribeiro\Source\Repos\Library\View\obj\Debug\View.csprojAssemblyReference.cache

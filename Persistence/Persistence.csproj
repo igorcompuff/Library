@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BD\BaseBdRepository.cs" />
-    <Compile Include="BD\BookBdRepository.cs" />
+    <Compile Include="BD\Repositories\AuthorBdRepository.cs" />
+    <Compile Include="BD\Repositories\BaseBdRepository.cs" />
+    <Compile Include="BD\Repositories\BookBdRepository.cs" />
+    <Compile Include="BD\Repositories\SubjectBdRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

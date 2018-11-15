@@ -1,99 +1,108 @@
 ﻿using Domain.Entities;
 using Persistence;
-using Service;
 using System;
 using System.Collections.Generic;
 using Persistence.BD;
+using Persistence.BD.Repositories;
 
 namespace View
 {
-    public class Program : IView
+    public class Program
     {
         public static void Main(string[] args)
         {
-            var p = new Program();
+            var prog = new Program();
 
+            //prog.TestGetById();
+            prog.GetAll();
+            //prog.TestAdd();
+            //prog.TestUpdate();
+            //prog.TestRemove();
+        }
+
+        public void TestGetById()
+        {
             using (var repository = new BookBdRepository())
             {
                 Book book = repository.GetById(1);
-                p.ShowBook(book);
+                ShowBook(book);
+                Console.ReadKey();
             }
         }
 
-        /*
-        public void ShowMenu()
+        public void GetAll()
         {
-            string option = "";
-
-            do
+            using (var rep = new BookBdRepository())
             {
-                Console.Clear();
-                Console.WriteLine("Menu da Biblioteca\n");
-                Console.WriteLine("1  - Cadastrar Livro");
-                Console.WriteLine("2  - Buscar livro pelo título");
-                Console.WriteLine("3  - Excluir livro");
-                Console.WriteLine("4  - Alterar livro");
-                Console.WriteLine("10 - Sair");
-
-                Console.Write("\nEntre com a opção desejada: ");
-                option = Console.ReadLine();
-
-            } while (ExecuteOption(option));
-        }
-
-       
-        public bool ExecuteOption(string option)
-        {
-            Console.Clear();
-            switch (option)
-            {
-                case "1":
-                    _service.Add(GetBook());
-                    break;
-                case "2":
-                    Console.WriteLine("Informe o título do Livro");
-                    string title = Console.ReadLine();
-                    Book book = _service.Get(title);
+                foreach (var book in rep.GetAll())
+                {
                     ShowBook(book);
-                    break;
-                case "3":
-                    Console.WriteLine("Informe o título do Livro");
-                    title = Console.ReadLine();
-                    book = _service.Get(title);
-
-                    if (book != null)
-                    {
-                        _service.Remove(book);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Livro Não Encontrado!");
-                    }
-                    break;
-                case "4":
-                    Console.WriteLine("Informe o título do Livro");
-                    title = Console.ReadLine();
-                    book = _service.Get(title);
-                    Book newBook = GetBookUpdate(book);
-                    _service.Update(newBook);
-                    break;
-                case "10":
-                    return false;
+                    Console.WriteLine("___________");
+                }
             }
 
-            return true;
+            Console.ReadKey();
         }
-*/
-        public void ShowBook(Book book)
+
+        public void TestAdd()
         {
-            Console.Clear();
+            var book = new Book("Saphiens", "2121", 1, "2017");
+            book.AddAuthor(new Author("Gabriela") { Id = 3 });
+            book.AddSubject(new Subject("Magia") { Id = 3 });
+
+            using (var rep = new BookBdRepository())
+            {
+                rep.Add(book);
+
+                foreach (var b in rep.GetAll())
+                {
+                    ShowBook(b);
+                }
+            }
+
+            Console.ReadKey();
+        }
+
+        public void TestUpdate()
+        {
+            var book = new Book("Saphiens 2", "2121", 1, "2017") { Id = 9 };
+            book.AddAuthor(new Author("Gabriela") { Id = 3 });
+            book.AddSubject(new Subject("C#") { Id = 4 });
+
+            using (var rep = new BookBdRepository())
+            {
+                rep.Update(book);
+
+                foreach (var b in rep.GetAll())
+                {
+                    ShowBook(b);
+                }
+            }
+
+            Console.ReadKey();
+        }
+
+        public void TestRemove()
+        {
+            var book = new Book("Saphiens 2", "2121", 1, "2017") { Id = 9 };
+            book.AddAuthor(new Author("Gabriela") { Id = 3 });
+            book.AddSubject(new Subject("C#") { Id = 4 });
+
+            using (var rep = new BookBdRepository())
+            {
+                rep.Remove(book);
+            }
+        }
+
+        public static void ShowBook(Book book)
+        {
             Console.WriteLine($"Título: {book.Title}");
             Console.WriteLine($"ISBN: {book.Isbn}");
             Console.WriteLine($"Edição: {book.Edition}");
             Console.WriteLine($"Ano: {book.Year}");
 
             Console.WriteLine("Autores:");
-            foreach(var author in book.GetAuthors())
+            foreach (var author in book.GetAuthors())
             {
                 Console.WriteLine($"- {author}");
             }
@@ -103,141 +112,6 @@ namespace View
             {
                 Console.WriteLine($"- {subject}");
             }
-
-            Console.ReadKey();
-
-        }
-
-        /*
-        public Book GetBookUpdate(Book oldBook)
-        {
-            Console.Clear();
-            Console.WriteLine($"Entre com o título do Livro[{oldBook.Title}]");
-            string title = Console.ReadLine();
-            title = title == "" ? oldBook.Title : title;
-
-            Console.WriteLine($"Entre com a edição do livro[{oldBook.Edition}]");
-            uint edition;
-
-            if (!uint.TryParse(Console.ReadLine(), out edition))
-            {
-                edition = oldBook.Edition;
-            }
-
-            Console.WriteLine($"Entre com o ano do livro[{oldBook.Year}]");
-            string year = Console.ReadLine();
-            year = year == "" ? oldBook.Year : year;
-
-            Book book = new Book(title, oldBook.Isbn, edition, year);
-
-            
-            foreach (var author in oldBook.GetAuthors())
-            {
-                Console.WriteLine($"Gostaria de Alterar o Autor {author}?(s/n)");
-                string update = Console.ReadLine();
-
-                if (update != "s")
-                {
-                    book.AddAuthor(author);
-                }
-                else
-                {
-                    book.RemoveAuthor(author);
-                    Console.WriteLine("Digite o nome do autor");
-                    book.AddAuthor(Console.ReadLine());
-                }
-            }
-
-            foreach (var subject in oldBook.GetSubjects())
-            {
-                Console.WriteLine($"Gostaria de Alterar o Assunto {subject}?(s/n)");
-                string update = Console.ReadLine();
-
-                if (update != "s")
-                {
-                    book.AddSubject(subject);
-                }
-                else
-                {
-                    book.RemoveSubject(subject);
-                    Console.WriteLine("Digite o novo assunto");
-                    book.AddSubject(Console.ReadLine());
-                }
-            }
-
-            string option;
-
-            Console.WriteLine("Gostaria de adicionar novos autores?");
-            if (Console.ReadLine() == "s")
-            {
-                do
-                {
-                    Console.WriteLine("Digite o nome do autor");
-                    book.AddAuthor(Console.ReadLine());
-
-                    Console.WriteLine("Deseja adicionar outro autor? (s/n)");
-                    option = Console.ReadLine();
-                } while (option.ToLower() != "n");
-            }
-
-            Console.WriteLine("Gostaria de adicionar novos assuntos?");
-            if (Console.ReadLine() == "s")
-            {
-                do
-                {
-                    Console.WriteLine("Digite o assunto");
-                    book.AddSubject(Console.ReadLine());
-
-                    Console.WriteLine("Deseja adicionar outro assunto? (s/n)");
-                    option = Console.ReadLine();
-                } while (option.ToLower() != "n");
-            }
-
-            return book;
-        }
-
-        public Book GetBook()
-        {
-            Console.Clear();
-            Console.WriteLine($"Entre com o título do Livro");
-            string title = Console.ReadLine();
-
-            Console.WriteLine($"Entre com o ISBN do Livro");
-            string isbn = Console.ReadLine();
-
-            Console.WriteLine($"Entre com a edição do livro");
-            uint edition = uint.Parse(Console.ReadLine());
-            
-            Console.WriteLine($"Entre com o ano do livro");
-            string year = Console.ReadLine();
-
-            Book book = new Book(title, isbn, edition, year);
-
-            string option;
-            do
-            {
-                Console.WriteLine("Digite o nome do autor");
-                book.AddAuthor(Console.ReadLine());
-
-                Console.WriteLine("Deseja adicionar outro autor? (s/n)");
-                option = Console.ReadLine();
-            } while (option.ToLower() != "n");
-
-            do
-            {
-                Console.WriteLine("Digite o assunto");
-                book.AddSubject(Console.ReadLine());
-
-                Console.WriteLine("Deseja adicionar outro assunto? (s/n)");
-                option = Console.ReadLine();
-            } while (option.ToLower() != "n");
-
-            return book;
-        }
-        */
-        public void ShowErrors(List<string> errors)
-        {
-            
         }
     }
 }
