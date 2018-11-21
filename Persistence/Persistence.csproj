@@ -45,6 +45,7 @@
     <Compile Include="BD\Repositories\BaseBdRepository.cs" />
     <Compile Include="BD\Repositories\BookBdRepository.cs" />
     <Compile Include="BD\Repositories\SubjectBdRepository.cs" />
+    <Compile Include="BD\UnityOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

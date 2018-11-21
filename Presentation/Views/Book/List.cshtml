@@ -1,0 +1,11 @@
+﻿
+@model IEnumerable<Domain.Entities.Author>
+
+<h2>List</h2>
+<ul>
+    @foreach (var author in Model)
+    {
+        <li>@author.Name</li>
+    }
+</ul>
+

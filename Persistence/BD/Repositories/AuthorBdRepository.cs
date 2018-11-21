@@ -9,17 +9,16 @@ namespace Persistence.BD.Repositories
 {
     public class AuthorBdRepository: BaseBdRepository<Author>, IAuthorRepository
     {
+        public AuthorBdRepository(UnityOfWork unityOfWork) : base(unityOfWork)
+        {
+        }
+
         public override void Add(Author entity)
         {
             throw new NotImplementedException();
         }
 
         public override void Remove(Author entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Update(Author entity)
         {
             throw new NotImplementedException();
         }
@@ -38,9 +37,9 @@ namespace Persistence.BD.Repositories
         {
             string sql = "Select * from Authors Inner Join Book_Author on Authors.Id = Book_Author.AuthorId and Book_Author.BookId = @Id"; ;
             var authors = new List<Author>();
-            DbParameter parameter = CreateParameter(DbType.Int32, "@Id", book.Id);
+            DbParameter parameter = _unityOfWork.CreateParameter(DbType.Int32, "@Id", book.Id);
 
-            using (var command = CreateCommand(sql, parameters: parameter))
+            using (var command = _unityOfWork.CreateCommand(sql, parameter))
             {
                 using (var reader = command.ExecuteReader())
                 {
