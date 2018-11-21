@@ -1,26 +1,72 @@
 ﻿using Domain.Entities;
-using Domain.Interfaces;
-using System;
 using System.Collections.Generic;
+using System.Linq;
+using Persistence.BD;
+using Persistence.BD.Repositories;
 
 namespace Service
 {
-    public class BookService : BaseService<Book>
+    public class BookService
     {
-        public BookService(IRepository<Book> repository, IView view) : base(repository, view)
-        {  
+        public IEnumerable<Book> GetAllBooks()
+        {
+            IEnumerable<Book> books;
+            using (UnityOfWork unity = new UnityOfWork())
+            {
+                books = new BookBdRepository(unity).GetAll();
+                var subjectRep = new SubjectBdRepository(unity);
+                var authorRep = new AuthorBdRepository(unity);
+                foreach (var book in books)
+                {
+                    book.AddSubjects(subjectRep.GetSubjectsOfABook(book));
+                    book.AddAuthors(authorRep.GetAuthorsOfABook(book));
+                }
+
+                unity.Complete();
+            }
+
+            return books;
         }
 
-        public override void Add(Book book)
+        public Book GetBookById(object id)
         {
-            List<string> errors = book.Validate();
-            if (errors.Count == 0)
+            Book book = null;
+
+            using (var unity = new UnityOfWork())
             {
-                _repository.Add(book);
+                book = new BookBdRepository(unity).GetById(id);
+                book.AddSubjects(new SubjectBdRepository(unity).GetSubjectsOfABook(book));
+                book.AddAuthors(new AuthorBdRepository(unity).GetAuthorsOfABook(book));
+
+                unity.Complete();
             }
-            else
+
+            return book;
+
+        }
+
+        public IEnumerable<string> AddBook(Book book)
+        {
+            IEnumerable<string> errors = book.Validate();
+
+            if (!errors.Any())
             {
-                _view.ShowErrors(errors);
+                using (var unity = new UnityOfWork())
+                {
+                    new BookBdRepository(unity).Add(book);
+                    unity.Complete();
+                }
+            }
+
+            return errors;
+        }
+
+        public void RemoveBook(Book book)
+        {
+            using (var unity = new UnityOfWork())
+            {
+                new BookBdRepository(unity).Remove(book);
+                unity.Complete();
             }
         }
     }

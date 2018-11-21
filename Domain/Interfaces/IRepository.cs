@@ -8,7 +8,6 @@ namespace Domain.Interfaces
     {
         void Add(T entity);
         void Remove(T entity);
-        void Update(T entity);
         T GetById(object id);
         IEnumerable<T> GetAll();
     }

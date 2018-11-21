@@ -1,9 +1,8 @@
 ﻿using Domain.Entities;
-using Persistence;
 using System;
 using System.Collections.Generic;
-using Persistence.BD;
-using Persistence.BD.Repositories;
+using System.Linq;
+using Service;
 
 namespace View
 {
@@ -13,32 +12,46 @@ namespace View
         {
             var prog = new Program();
 
-            //prog.TestGetById();
-            prog.GetAll();
-            //prog.TestAdd();
-            //prog.TestUpdate();
-            //prog.TestRemove();
+            prog.TestRemove();
+
+
         }
 
         public void TestGetById()
         {
-            using (var repository = new BookBdRepository())
-            {
-                Book book = repository.GetById(1);
-                ShowBook(book);
-                Console.ReadKey();
-            }
+            BookService bookService = new BookService();
+            ShowBook(bookService.GetBookById(1));
+            Console.ReadKey();
         }
 
         public void GetAll()
         {
-            using (var rep = new BookBdRepository())
+            BookService bookService = new BookService();
+
+            foreach (var book in bookService.GetAllBooks())
             {
-                foreach (var book in rep.GetAll())
+                ShowBook(book);
+                Console.WriteLine("___________");
+            }
+
+            Console.ReadKey();
+        }
+
+        private void TestAdd(Book book)
+        {
+            BookService bookService = new BookService();
+            IEnumerable<string> errors = bookService.AddBook(book);
+
+            if (errors.Any())
+            {
+                foreach (var error in errors)
                 {
-                    ShowBook(book);
-                    Console.WriteLine("___________");
+                    Console.WriteLine(error);
                 }
+            }
+            else
+            {
+                Console.WriteLine("Livro adicionado com sucesso");
             }
 
             Console.ReadKey();
@@ -50,48 +63,26 @@ namespace View
             book.AddAuthor(new Author("Gabriela") { Id = 3 });
             book.AddSubject(new Subject("Magia") { Id = 3 });
 
-            using (var rep = new BookBdRepository())
-            {
-                rep.Add(book);
-
-                foreach (var b in rep.GetAll())
-                {
-                    ShowBook(b);
-                }
-            }
-
-            Console.ReadKey();
+            TestAdd(book);
         }
 
         public void TestUpdate()
         {
-            var book = new Book("Saphiens 2", "2121", 1, "2017") { Id = 9 };
+            var book = new Book("Saphiens 3", "2121", 1, "2017") { Id = 13 };
             book.AddAuthor(new Author("Gabriela") { Id = 3 });
             book.AddSubject(new Subject("C#") { Id = 4 });
 
-            using (var rep = new BookBdRepository())
-            {
-                rep.Update(book);
-
-                foreach (var b in rep.GetAll())
-                {
-                    ShowBook(b);
-                }
-            }
-
-            Console.ReadKey();
+            TestAdd(book);
         }
 
         public void TestRemove()
         {
-            var book = new Book("Saphiens 2", "2121", 1, "2017") { Id = 9 };
-            book.AddAuthor(new Author("Gabriela") { Id = 3 });
-            book.AddSubject(new Subject("C#") { Id = 4 });
+            var book = new Book("Saphiens 3", "2121", 1, "2017") { Id = 13 };
+            BookService bookService = new BookService();
+            bookService.RemoveBook(book);
 
-            using (var rep = new BookBdRepository())
-            {
-                rep.Remove(book);
-            }
+            Console.WriteLine("Livro removido.");
+            Console.ReadKey();
         }
 
         public static void ShowBook(Book book)

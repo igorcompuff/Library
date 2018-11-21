@@ -9,17 +9,16 @@ namespace Persistence.BD.Repositories
 {
     public class SubjectBdRepository: BaseBdRepository<Subject>, ISubjectRepository
     {
+        public SubjectBdRepository(UnityOfWork unityOfWork) : base(unityOfWork)
+        {
+        }
+
         public override void Add(Subject entity)
         {
             throw new NotImplementedException();
         }
 
         public override void Remove(Subject entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Update(Subject entity)
         {
             throw new NotImplementedException();
         }
@@ -38,9 +37,9 @@ namespace Persistence.BD.Repositories
         {
             string sql = "Select * from Subjects Inner Join Book_Subject on Subjects.Id = Book_Subject.SubjectId and Book_Subject.BookId = @Id";
             var subjects = new List<Subject>();
-            DbParameter parameter = CreateParameter(DbType.Int32, "@Id", book.Id);
+            DbParameter parameter = _unityOfWork.CreateParameter(DbType.Int32, "@Id", book.Id);
 
-            using (var command = CreateCommand(sql, parameters: parameter))
+            using (var command = _unityOfWork.CreateCommand(sql, parameter))
             {
                 using (var reader = command.ExecuteReader())
                 {
