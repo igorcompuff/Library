@@ -37,20 +37,33 @@ namespace Persistence.BD.Repositories
             DbParameter yearParam = _unityOfWork.CreateParameter(DbType.String, "@Year", book.Year);
             DbParameter editionParam = _unityOfWork.CreateParameter(DbType.Int32, "@Edition", book.Edition);
 
-            _unityOfWork.CreateCommand(updateBookSql, bookIdParam, titleParam, isbnParam, yearParam, editionParam).ExecuteNonQuery();
-            _unityOfWork.CreateCommand(deleteSubjectsSql, bookIdParam).ExecuteNonQuery();
-            _unityOfWork.CreateCommand(deleteAuthorsSql, bookIdParam).ExecuteNonQuery();
+            using (DbCommand deleteSubjectCmd = _unityOfWork.CreateCommand(deleteSubjectsSql, bookIdParam),
+                             deleteAuthorCmd = _unityOfWork.CreateCommand(deleteAuthorsSql, bookIdParam),
+                             updateBookCmd = _unityOfWork.CreateCommand(updateBookSql, bookIdParam, titleParam, isbnParam, yearParam, editionParam))
+            {
+                updateBookCmd.ExecuteNonQuery();
+                deleteSubjectCmd.ExecuteNonQuery();
+                deleteAuthorCmd.ExecuteNonQuery();
+            }
 
             foreach (var subject in book.GetSubjects())
             {
                 DbParameter subjectIdParam = _unityOfWork.CreateParameter(DbType.Int32, "@SubjectId", subject.Id);
-                _unityOfWork.CreateCommand(bookSubjectInsertSql, bookIdParam, subjectIdParam).ExecuteNonQuery();
+
+                using (var command = _unityOfWork.CreateCommand(bookSubjectInsertSql, bookIdParam, subjectIdParam))
+                {
+                    command.ExecuteNonQuery();
+                }
             }
 
             foreach (var author in book.GetAuthors())
             {
                 DbParameter authorIdParam = _unityOfWork.CreateParameter(DbType.Int32, "@AuthorId", author.Id);
-                _unityOfWork.CreateCommand(bookAuthorInsertSql, bookIdParam, authorIdParam).ExecuteNonQuery();
+
+                using (var command = _unityOfWork.CreateCommand(bookAuthorInsertSql, bookIdParam, authorIdParam))
+                {
+                    command.ExecuteNonQuery();
+                }
             }
         }
         private void AddNewBook(Book book)
@@ -100,8 +113,6 @@ namespace Persistence.BD.Repositories
                 }
             }
 
-            _unityOfWork.Complete();
-
             return book;
         }
         public override IEnumerable<Book> GetAll()
@@ -132,8 +143,6 @@ namespace Persistence.BD.Repositories
             {
                 UpdateBook(book);
             }
-
-            _unityOfWork.Complete();
         }
         public override void Remove(Book book)
         {
@@ -143,11 +152,14 @@ namespace Persistence.BD.Repositories
 
             DbParameter bookIdParam = _unityOfWork.CreateParameter(DbType.Int32, "@Id", book.Id);
 
-            _unityOfWork.CreateCommand(deleteSubjectsSql, bookIdParam).ExecuteNonQuery();
-            _unityOfWork.CreateCommand(deleteAuthorsSql, bookIdParam).ExecuteNonQuery();
-            _unityOfWork.CreateCommand(deleteBookSql, bookIdParam).ExecuteNonQuery();
-
-            _unityOfWork.Complete();
+            using (DbCommand deleteSubjectCmd = _unityOfWork.CreateCommand(deleteSubjectsSql, bookIdParam),
+                             deleteAuthorCmd = _unityOfWork.CreateCommand(deleteAuthorsSql, bookIdParam),
+                             deleteBookCmd = _unityOfWork.CreateCommand(deleteBookSql, bookIdParam))
+            {
+                deleteSubjectCmd.ExecuteNonQuery();
+                deleteAuthorCmd.ExecuteNonQuery();
+                deleteBookCmd.ExecuteNonQuery();
+            }
         }
     }
 }

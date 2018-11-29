@@ -10,6 +10,11 @@ namespace Domain.Entities
         {
             Description = description;
         }
+
+        public Subject()
+        {
+            
+        }
         public override List<string> Validate() => new List<string>();
 
         public override string ToString()

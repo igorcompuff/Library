@@ -61,11 +61,11 @@ namespace Service
             return errors;
         }
 
-        public void RemoveBook(Book book)
+        public void RemoveBook(int bookId)
         {
             using (var unity = new UnityOfWork())
             {
-                new BookBdRepository(unity).Remove(book);
+                new BookBdRepository(unity).Remove(new Book(){Id= bookId});
                 unity.Complete();
             }
         }

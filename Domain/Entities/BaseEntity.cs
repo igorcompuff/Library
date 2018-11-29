@@ -4,7 +4,7 @@ namespace Domain.Entities
 {
     public abstract class BaseEntity
     {
-        public object Id { get; set; }
+        public int Id { get; set; }
 
         protected BaseEntity()
         {

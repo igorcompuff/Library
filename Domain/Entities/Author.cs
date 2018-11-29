@@ -11,6 +11,11 @@ namespace Domain.Entities
         {
             Name = name;
         }
+
+        public Author()
+        {
+            
+        }
         public override List<string> Validate() => new List<string>();
         public override string ToString()
         {

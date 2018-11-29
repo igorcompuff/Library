@@ -14,7 +14,6 @@ namespace Persistence.BD
         private readonly DbProviderFactory _factory;
         private DbConnection _connection;
         private DbTransaction _transaction;
-        public bool Persistent { get; set; }
 
         public UnityOfWork(bool persistent = false)
         {
@@ -26,16 +25,6 @@ namespace Persistence.BD
             _connection.ConnectionString = connectionString;
             _connection.Open();
             _transaction = _connection.BeginTransaction();
-            Persistent = persistent;
-        }
-
-        public UnityOfWork(UnityOfWork unity)
-        {
-            _factory = unity._factory;
-            _connection = unity._connection;
-            _connection.Open();
-            _transaction = _connection.BeginTransaction();
-            Persistent = unity.Persistent;
         }
 
         public DbCommand CreateCommand(string commandText, params DbParameter[] parameters)
@@ -70,11 +59,7 @@ namespace Persistence.BD
             _transaction?.Rollback();
             _transaction?.Dispose();
             _transaction = null;
-
-            if (!Persistent)
-            {
-                _connection.Dispose();
-            }
+            _connection.Dispose();
         }
     }
 }
